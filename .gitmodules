@@ -4,3 +4,6 @@
 [submodule "lib/zunicode"]
 	path = lib/zunicode
 	url = https://github.com/gernest/zunicode.git
+[submodule "lib/clap"]
+	path = lib/clap
+	url = https://github.com/Hejsil/zig-clap.git
