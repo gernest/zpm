@@ -1,3 +1,6 @@
 [submodule "lib/semver"]
 	path = lib/semver
 	url = https://github.com/gernest/semver.git
+[submodule "lib/zunicode"]
+	path = lib/zunicode
+	url = https://github.com/gernest/zunicode.git
