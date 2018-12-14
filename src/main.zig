@@ -9,6 +9,7 @@ const PackageInfo = struct {
     name: []const u8,
     version: ?[]const u8,
     source: ?Source,
+    entry_point: []const u8,
 
     fn encode(self: PackageInfo, a: *Allocator) !json.Value {
         var m = json.ObjectMap.init(a);
@@ -22,6 +23,8 @@ const PackageInfo = struct {
             const src_value = try src.encode(a);
             _ = try m.put("source", src_value);
         }
+        const entry_value = json.Value{ .String = self.entry_point };
+        _ = try m.put("entry_point", entry_value);
         return json.Value{ .Object = m };
     }
 };
@@ -52,7 +55,10 @@ const Version = struct {
     version: ?[]const u8,
 
     pub fn check(self: *const Version) bool {
-        return semver.isValid(self.version);
+        if (self.version) |v| {
+            return semver.isValid(v);
+        }
+        return true;
     }
 
     fn encode(self: Version, a: *Allocator) json.Value {
@@ -80,6 +86,7 @@ test "encode" {
         .name = "zpm",
         .version = "v0.1.0",
         .source = Source{ .git = "github.com/gerenst/zpm" },
+        .entry_point = "src/index.zig",
     };
 
     const value = try p.encode(&a.allocator);
